@@ -5,7 +5,13 @@
     import Profile from './MenuItems/UserItems/Profile.vue';
     import Registration from './MenuItems/UserItems/Registration.vue';
 
+    import { useGalleriesStore } from '@/stores/galleries';
+    import { mapState } from 'pinia';
+
     export default{
+        computed: {
+            ...mapState(useGalleriesStore, ["listOfYears"])
+        },
         components: {
             DropdownItem,
             LinkItem,
@@ -25,8 +31,7 @@
                 <LinkItem text="Baza wiedzy" target="/info" />
             </DropdownItem>
             <DropdownItem text="Medialne wspomnienia">
-                <LinkItem v-for="n in 33" :text="n+1990" :target="/galleries/+String(1990+n)" />
-                <!-- TODO: Do zmienienia jak dodam najpierw stan przez Pinia a potem wczytywanie przez Api listy galerii -->
+                <LinkItem v-for="year in listOfYears" :text="year" :target="/galleries/+year" />
             </DropdownItem>
             <DropdownItem text="Strefa pielgrzyma">
                 <LoginLogout />
